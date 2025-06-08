@@ -5,10 +5,10 @@
 import Foundation
 
 public struct Clause: Identifiable {
-    public let id: UUID
+    public let id: Int
     public let literals: [Int]
-    init(literals: [Int]) {
+    init(id: Int, literals: [Int]) {
+        self.id = id
         self.literals = literals
-        self.id = UUID()
     }
 }

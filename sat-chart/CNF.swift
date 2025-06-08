@@ -15,33 +15,43 @@ extension UTType {
     }
 }
 
+private func varOccEffectives(nv: Int, clauses: [Clause]) -> [Var] {
+    var occSum = 0
+    var occ: [Int] = Array(repeating: 0, count: nv + 1)
+    for c in clauses {
+        for l in c.literals {
+            occ[abs(l)] += 1
+        }
+        occSum += c.literals.count
+    }
+    var ol = Array(occ.enumerated().dropFirst())
+    ol.sort { $0.1 > $1.1 }
+    let limit = Int(log2(Double(nv)))
+    return ol.dropLast(nv - limit).map { Var(id: $0.0, occRate: Double($0.1) / Double(occSum))}
+}
+
 public struct CNF: FileDocument {
     var text: String
     var number_of_variables: Int = -2
-    var var_occurrences: [Int: Int] = [:]
-    var clauses: [Clause] = []
-    var vars: [Var]
+    var number_of_clauses: Int = -2
+    // var var_occurrences: [Int: Int] = [:]
+    // var clauses: [Clause] = []
+    var occrs: [Var]
 
     init(text: String) {
         self.text = text
         do {
             let (n, clauses) = try cnf_parser.parse(text)
             self.number_of_variables = n
-            var occSum = 0
-            var occ: [Int: Int] = [:]
-            for c in clauses {
-                for l in c.literals {
-                    occ[abs(l), default: 0] += 1
-                    occSum += 1
-                }
-            }
-            self.clauses = clauses
-            self.vars = occ.map { e in Var(id: e.key, occRate:  Double(e.value) / Double(occSum)) }
+            self.number_of_clauses = clauses.count
+            // self.clauses = clauses
+            self.occrs = varOccEffectives(nv: n, clauses: clauses)
         } catch {
             print(error)
             self.number_of_variables = -1
-            self.clauses = [Clause(literals: [1, 2])]
-            self.vars = []
+            self.number_of_clauses = -1
+            // self.clauses = []
+            self.occrs = []
         }
     }
 
@@ -56,17 +66,10 @@ public struct CNF: FileDocument {
         text = string
         let (n, c) = try cnf_parser.parse(text)
         number_of_variables = n
-        clauses = c
-        var occSum = 0
-        var occ: [Int: Int] = [:]
-        for c in clauses {
-            for l in c.literals {
-                occ[abs(l), default: 0] += 1
-                occSum += 1
+        number_of_clauses = c.count
+        // clauses = c
+        occrs = varOccEffectives(nv: n, clauses: c)
             }
-        }
-        vars = occ.map { e in Var(id: e.key, occRate:  Double(e.value) / Double(occSum)) }
-    }
 
     public func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         let data = text.data(using: .utf8)!
@@ -74,14 +77,14 @@ public struct CNF: FileDocument {
     }
 }
 
-public let clause_parser: some Parser<Substring, Clause> = Parse {
+public let clause_parser: some Parser<Substring, [Int]> = Parse {
     Many {
         Int.parser()
         // Prefix { $0.isWhitespace }
     } separator: {
         " "
     }
-}.map { literals in Clause(literals: literals.dropLast()) }
+}.map { literals in literals.dropLast() }
 
 public let cnf_parser: some Parser<Substring, (Int, [Clause])> = Parse {
     Many {
@@ -98,4 +101,4 @@ public let cnf_parser: some Parser<Substring, (Int, [Clause])> = Parse {
         clause_parser
     }
     separator: { "\n" }
-}.map { _, n, m, c in (n, c) }
+}.map { _, n, m, c in (n, c.enumerated().map { i, l in Clause(id: i, literals: l) }) }
