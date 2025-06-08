@@ -18,18 +18,30 @@ extension UTType {
 public struct CNF: FileDocument {
     var text: String
     var number_of_variables: Int = -2
+    var var_occurrences: [Int: Int] = [:]
     var clauses: [Clause] = []
+    var vars: [Var]
 
     init(text: String) {
         self.text = text
         do {
             let (n, clauses) = try cnf_parser.parse(text)
             self.number_of_variables = n
+            var occSum = 0
+            var occ: [Int: Int] = [:]
+            for c in clauses {
+                for l in c.literals {
+                    occ[abs(l), default: 0] += 1
+                    occSum += 1
+                }
+            }
             self.clauses = clauses
+            self.vars = occ.map { e in Var(id: e.key, occRate:  Double(e.value) / Double(occSum)) }
         } catch {
             print(error)
             self.number_of_variables = -1
             self.clauses = [Clause(literals: [1, 2])]
+            self.vars = []
         }
     }
 
@@ -45,6 +57,15 @@ public struct CNF: FileDocument {
         let (n, c) = try cnf_parser.parse(text)
         number_of_variables = n
         clauses = c
+        var occSum = 0
+        var occ: [Int: Int] = [:]
+        for c in clauses {
+            for l in c.literals {
+                occ[abs(l), default: 0] += 1
+                occSum += 1
+            }
+        }
+        vars = occ.map { e in Var(id: e.key, occRate:  Double(e.value) / Double(occSum)) }
     }
 
     public func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {

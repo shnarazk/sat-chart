@@ -2,8 +2,6 @@
 //  sat_chartApp.swift
 //  sat-chart
 //
-//  Created by 楢崎修二 on 6/8/25.
-//
 
 import SwiftUI
 

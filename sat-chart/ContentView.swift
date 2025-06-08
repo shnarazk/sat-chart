@@ -2,10 +2,8 @@
 //  ContentView.swift
 //  sat-chart
 //
-//  Created by 楢崎修二 on 6/8/25.
-//
-
 import SwiftUI
+import Charts
 
 struct ContentView: View {
     @Binding var cnf: CNF
@@ -15,11 +13,18 @@ struct ContentView: View {
             .padding(.bottom, 5)
         Text(String("# of clauses: \(cnf.clauses.count)"))
             .padding(.bottom, 5)
-//        List {
-//            ForEach(cnf.clauses) { clause in
-//                Text(String("\(clause)"))
-//            }
-//        }
+        Chart {
+            ForEach(cnf.vars.sorted(by: { $0.occRate > $1.occRate })) { v in
+                SectorMark(
+                    angle: .value("Value", v.occRate),
+                    innerRadius: .ratio(0.5),
+                    // angularInset: 1.0 // Optional: Adjust spacing between segments
+                )
+                .foregroundStyle(by: .value("Var", v.occRate))
+            }
+        }
+        .chartLegend(position: .trailing)
+        .padding()
     }
 }
 
