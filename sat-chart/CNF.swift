@@ -15,7 +15,7 @@ extension UTType {
     }
 }
 
-private func varOccEffectives(nv: Int, clauses: [Clause]) -> [Var] {
+private func varOccEffectives(nv: Int, clauses: [Clause]) -> ([Var], Int) {
     var occSum = 0
     var varOcc: [Int] = Array(repeating: 0, count: nv + 1)
     var litOcc: [Int] = Array(repeating: 0, count: 2 * (nv + 1))
@@ -29,13 +29,18 @@ private func varOccEffectives(nv: Int, clauses: [Clause]) -> [Var] {
     var ol = Array(varOcc.enumerated().dropFirst())
     ol.sort { $0.1 > $1.1 }
     let limit = 4 * Int(sqrt(Double(nv)))
-    return ol.dropLast(nv - limit).map {
+    let targets = ol.dropLast(nv - limit)
+    let varset = Set(targets.map { $0.0 })
+    let cc = clauses.filter { $0.literals.allSatisfy { !varset.contains(abs($0)) }}.count
+    let vars = targets.map {
         Var(
             id: $0.0,
             occRate: Double($0.1) / Double(occSum),
             occurences: (litOcc[2 * $0.0], litOcc[2 * $0.0 + 1])
+            // chain:
         )
     }
+    return (vars, cc)
 }
 
 func parse(_ str: Substring) throws -> (Int, [Clause]) {
@@ -47,7 +52,6 @@ func parse(_ str: Substring) throws -> (Int, [Clause]) {
             " "
         }
     }.map { literals in literals.dropLast() }
-
     let cnf_parser: some Parser<Substring, (Int, [Clause])> = Parse {
         Many {
             "c "
@@ -72,9 +76,11 @@ public struct CNF: FileDocument {
     // var text: String
     var number_of_variables: Int = -2
     var number_of_clauses: Int = -2
+    var number_of_small_clauses: Int = -2
     // var var_occurrences: [Int: Int] = [:]
     // var clauses: [Clause] = []
     var occrs: [Var]
+    var number_of_clauses_link_to_occrs: Int = -2
 
     init(text: String) {
         // self.text = text
@@ -82,18 +88,20 @@ public struct CNF: FileDocument {
             let (n, clauses) = try parse(text[...])
             self.number_of_variables = n
             self.number_of_clauses = clauses.count
+            self.number_of_small_clauses = clauses.filter { $0.literals.count <= 5 }.count
             // self.clauses = clauses
-            self.occrs = varOccEffectives(nv: n, clauses: clauses)
+            let (o, c) = varOccEffectives(nv: n, clauses: clauses)
+            self.occrs = o
+            self.number_of_clauses_link_to_occrs = c
         } catch {
             print(error)
             self.number_of_variables = -1
             self.number_of_clauses = -1
+            self.number_of_small_clauses = 0
             // self.clauses = []
             self.occrs = []
         }
     }
-
-    public static var readableContentTypes: [UTType] { [.init(filenameExtension: "cnf")!] }
 
     public init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
@@ -102,12 +110,26 @@ public struct CNF: FileDocument {
             throw CocoaError(.fileReadCorruptFile)
         }
         // text = string
-        let (n, c) = try parse(string[...])
-        number_of_variables = n
-        number_of_clauses = c.count
-        // clauses = c
-        occrs = varOccEffectives(nv: n, clauses: c)
+        do {
+            let (n, clauses) = try parse(string[...])
+            self.number_of_variables = n
+            self.number_of_clauses = clauses.count
+            self.number_of_small_clauses = clauses.filter { $0.literals.count <= 5 }.count
+            // clauses = c
+            let (o, c) = varOccEffectives(nv: n, clauses: clauses)
+            self.occrs = o
+            self.number_of_clauses_link_to_occrs = c
+        } catch {
+            print(error)
+            self.number_of_variables = -1
+            self.number_of_clauses = -1
+            self.number_of_small_clauses = 0
+            // self.clauses = []
+            self.occrs = []
+        }
     }
+
+    public static var readableContentTypes: [UTType] { [.init(filenameExtension: "cnf")!] }
 
     public func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         let data = "".data(using: .utf8)!

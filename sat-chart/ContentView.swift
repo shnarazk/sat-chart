@@ -11,46 +11,71 @@ private func phase(_ occ: (Int, Int)) -> Double {
 
 struct ContentView: View {
     @Binding var cnf: CNF
+    @State private var viewPage: Int = 0
 
     var body: some View {
-        Text(String("# of variables: \(cnf.number_of_variables)"))
-            .padding(.bottom, 5)
-        Text(String("# of clauses: \(cnf.number_of_clauses)"))
-            .padding(.bottom, 5)
-        Text(String("# of var picked: \(cnf.occrs.count)"))
-            .padding(.bottom, 5)
-        HStack {
-            Chart {
-                ForEach(cnf.occrs) { v in
+        NavigationSplitView {
+            VStack(alignment: .leading, spacing: 16) {
+                Button {
+                    viewPage = 0
+                } label: {
+                    Label("Basic properties", systemImage: "list.bullet")
+                }
+                Button {
+                    viewPage = 1
+                } label: {
+                    Label("Dominant vars", systemImage: "chart.pie.fill")
+                }
+                Button {
+                    viewPage = 2
+                } label: {
+                    Label("Var phases", systemImage: "link")
+                }
+            }
+        } detail: {
+            switch viewPage {
+            case 1:
+                Chart {
+                    ForEach(cnf.occrs) { v in
+                        SectorMark(
+                            angle: .value("Value", v.occRate),
+                            innerRadius: .ratio(0.5),
+                            // angularInset: 1.0 // Optional: Adjust spacing between segments
+                        )
+                        .foregroundStyle(by: .value("Var", v.occRate))
+                    }
                     SectorMark(
-                        angle: .value("Value", v.occRate),
+                        angle: .value("Value", 1.0 - cnf.occrs.reduce(0) { $0 + $1.occRate }),
                         innerRadius: .ratio(0.5),
-                        // angularInset: 1.0 // Optional: Adjust spacing between segments
                     )
-                    .foregroundStyle(by: .value("Var", v.occRate))
+                    .foregroundStyle(by: .value("Var", 0))
                 }
-                SectorMark(
-                    angle: .value("Value", 1.0 - cnf.occrs.reduce(0) { $0 + $1.occRate }),
-                    innerRadius: .ratio(0.5),
-                )
-                .foregroundStyle(by: .value("Var", 0))
-            }
-            .chartLegend(position: .trailing)
-            .padding()
-            Chart {
-                ForEach(cnf.occrs) { v in
-                    PointMark(
-                        x: .value("var occurency", v.occRate),
-                        y: .value("phase", phase(v.occurences)),
-                    )
+                .chartLegend(position: .trailing)
+                .padding()
+            case 2:
+                Chart {
+                    ForEach(cnf.occrs) { v in
+                        PointMark(
+                            x: .value("var occurency", v.occRate),
+                            y: .value("phase", phase(v.occurences)),
+                        )
+                    }
                 }
+                .chartXAxisLabel("Occurrence Rate")  // X-axis label
+                .chartYAxisLabel("Phase")  // Y-axis label
+                .chartLegend(position: .trailing)
+                .padding()
+            default:
+                Text(String("# of variables: \(cnf.number_of_variables)"))
+                    .padding(.bottom, 5)
+                Text(String("# of clauses: \(cnf.number_of_clauses)"))
+                    .padding(.bottom, 5)
+                Text(String("# of var picked: \(cnf.occrs.count)"))
+                    .padding(.bottom, 5)
+                Text(String("# of strong clauses: \(cnf.number_of_clauses_link_to_occrs)"))
+                    .padding(.bottom, 5)
             }
-            .chartXAxisLabel("Occurrence Rate") // X-axis label
-            .chartYAxisLabel("Phase")           // Y-axis label
-            .chartLegend(position: .trailing)
-            .padding()
         }
-        .padding(.bottom)
     }
 }
 
