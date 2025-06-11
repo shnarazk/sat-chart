@@ -52,6 +52,7 @@ struct ContentView: View {
                 }
                 .chartLegend(position: .trailing)
                 .padding()
+                .backgroundExtensionEffect()
             case 2:
                 Chart {
                     ForEach(cnf.occrs) { v in
@@ -61,10 +62,12 @@ struct ContentView: View {
                         )
                     }
                 }
-                .chartXAxisLabel("Occurrence Rate")  // X-axis label
-                .chartYAxisLabel("Phase")  // Y-axis label
+                .chartXAxisLabel("Occurrence Rate")
+                .chartYAxisLabel("Phase")
+                .chartYScale(domain: -1.0...1.0)
                 .chartLegend(position: .trailing)
                 .padding()
+                .backgroundExtensionEffect()
             default:
                 Text(String("# of variables: \(cnf.number_of_variables)"))
                     .padding(.bottom, 5)
