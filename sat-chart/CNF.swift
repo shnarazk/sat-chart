@@ -15,7 +15,7 @@ extension UTType {
     }
 }
 
-private func varOccEffectives(nv: Int, clauses: [Clause]) -> ([Var], Int) {
+private nonisolated func varOccEffectives(nv: Int, clauses: [Clause]) -> ([Var], Int) {
     var occSum = 0
     var varOcc: [Int] = Array(repeating: 0, count: nv + 1)
     var litOcc: [Int] = Array(repeating: 0, count: 2 * (nv + 1))
@@ -43,7 +43,7 @@ private func varOccEffectives(nv: Int, clauses: [Clause]) -> ([Var], Int) {
     return (vars, cc)
 }
 
-func parse(_ str: Substring) throws -> (Int, [Clause]) {
+nonisolated func parse(_ str: Substring) throws -> (Int, [Clause]) {
     let clause_parser: some Parser<Substring, [Int]> = Parse {
         Many {
             Int.parser()
@@ -72,7 +72,7 @@ func parse(_ str: Substring) throws -> (Int, [Clause]) {
     return try cnf_parser.parse(str)
 }
 
-public struct CNF: FileDocument {
+public nonisolated struct CNF: FileDocument {
     // var text: String
     var number_of_variables: Int = -2
     var number_of_clauses: Int = -2
