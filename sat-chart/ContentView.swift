@@ -36,7 +36,7 @@ struct ContentView: View {
             switch viewPage {
             case 1:
                 Chart {
-                    ForEach(cnf.occrs) { v in
+                    ForEach(cnf.primaryVars) { v in
                         SectorMark(
                             angle: .value("Value", v.occRate),
                             innerRadius: .ratio(0.5),
@@ -45,7 +45,7 @@ struct ContentView: View {
                         .foregroundStyle(by: .value("Var", v.occRate))
                     }
                     SectorMark(
-                        angle: .value("Value", 1.0 - cnf.occrs.reduce(0) { $0 + $1.occRate }),
+                        angle: .value("Value", 1.0 - cnf.primaryVars.reduce(0) { $0 + $1.occRate }),
                         innerRadius: .ratio(0.5),
                     )
                     .foregroundStyle(by: .value("Var", 0))
@@ -55,7 +55,7 @@ struct ContentView: View {
                 .backgroundExtensionEffect()
             case 2:
                 Chart {
-                    ForEach(cnf.occrs) { v in
+                    ForEach(cnf.primaryVars) { v in
                         PointMark(
                             x: .value("var occurency", v.occRate),
                             y: .value("phase", phase(v.occurences)),
@@ -69,13 +69,13 @@ struct ContentView: View {
                 .padding()
                 .backgroundExtensionEffect()
             default:
-                Text(String("# of variables: \(cnf.number_of_variables)"))
+                Text(String("# of variables: \(cnf.numberOfVariables)"))
                     .padding(.bottom, 5)
-                Text(String("# of clauses: \(cnf.number_of_clauses)"))
+                Text(String("# of clauses: \(cnf.numberOfClauses)"))
                     .padding(.bottom, 5)
-                Text(String("# of var picked: \(cnf.occrs.count)"))
+                Text(String("# of primary vars: \(cnf.primaryVars.count)"))
                     .padding(.bottom, 5)
-                Text(String("# of strong clauses: \(cnf.number_of_clauses_link_to_occrs)"))
+                    Text(String("# of primary clauses: \(cnf.primaryClauses.count)"))
                     .padding(.bottom, 5)
             }
         }
