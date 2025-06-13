@@ -12,24 +12,19 @@ private func phase(_ occ: (Int, Int)) -> Double {
 struct ContentView: View {
     @Binding var cnf: CNF
     @State private var viewPage: Int = 0
-
+    private let pages = [
+        (id: 0, label: "Basic properties", icon: "list.bullet"),
+        (id: 1, label: "Dominant Vars", icon: "chart.pie.fill"),
+        (id: 2, label: "Var phases", icon: "link"),
+    ]
     var body: some View {
         NavigationSplitView {
             VStack(alignment: .leading, spacing: 16) {
-                Button {
-                    viewPage = 0
-                } label: {
-                    Label("Basic properties", systemImage: "list.bullet")
-                }
-                Button {
-                    viewPage = 1
-                } label: {
-                    Label("Dominant vars", systemImage: "chart.pie.fill")
-                }
-                Button {
-                    viewPage = 2
-                } label: {
-                    Label("Var phases", systemImage: "link")
+                List(pages, id: \.id, selection: $viewPage) { g in
+                    HStack {
+                        Image(systemName: g.icon)
+                        Text(g.label)
+                    }
                 }
             }
         } detail: {
@@ -69,14 +64,20 @@ struct ContentView: View {
                 .padding()
                 .backgroundExtensionEffect()
             default:
-                Text(String("# of variables: \(cnf.numberOfVariables)"))
-                    .padding(.bottom, 5)
-                Text(String("# of clauses: \(cnf.numberOfClauses)"))
-                    .padding(.bottom, 5)
-                Text(String("# of primary vars: \(cnf.primaryVars.count)"))
-                    .padding(.bottom, 5)
-                    Text(String("# of primary clauses: \(cnf.primaryClauses.count)"))
-                    .padding(.bottom, 5)
+                List {
+                    Section(header: Text("All")) {
+                        Text(String("# of variables: \(cnf.numberOfVariables)"))
+                            .padding(.bottom, 5)
+                        Text(String("# of clauses: \(cnf.numberOfClauses)"))
+                            .padding(.bottom, 5)
+                    }
+                    Section(header: Text("Primary core")) {
+                        Text(String("# of primary vars: \(cnf.primaryVars.count)"))
+                            .padding(.bottom, 5)
+                        Text(String("# of primary clauses: \(cnf.primaryClauses.count)"))
+                            .padding(.bottom, 5)
+                    }
+                }
             }
         }
     }
