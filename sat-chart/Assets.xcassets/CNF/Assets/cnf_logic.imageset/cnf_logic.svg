@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1081"
+   height="1081"
+   viewBox="0 0 1081 1081"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <color-profile
+       name="Generic-RGB-Profile"
+       xlink:href="file:///System/Library/ColorSync/Profiles/Generic%20RGB%20Profile.icc"
+       id="color-profile5" />
+    <color-profile
+       name="Display-P3"
+       xlink:href="file:///System/Library/ColorSync/Profiles/Display%20P3.icc"
+       id="color-profile4" />
+    <color-profile
+       name="SMPTE-RP-431-2-2007-DCI-P3"
+       xlink:href="file:///System/Library/ColorSync/Profiles/DCI(P3)%20RGB.icc"
+       id="color-profile6" />
+  </defs>
+  <g
+     id="layer3"
+     transform="translate(0.5,0.5)">
+    <path
+       id="path7"
+       style="fill:#9df626;fill-opacity:1;stroke:none;stroke-width:1.13636"
+       d="M 540,140 A 400,400 0 0 0 140,540 400,400 0 0 0 540,940 400,400 0 0 0 940,540 400,400 0 0 0 540,140 Z M 374.98438,454.82031 h 24.46484 l 66.0625,170.35938 H 439.4375 l -52.29297,-141.0625 -52.14844,141.0625 h -26.07421 z m 239.5039,0 h 26.07422 l 52.14844,140.91797 52.29297,-140.91797 h 26.07421 l -66.0625,170.35938 h -24.46484 z m -141.94531,82.03125 h 134.32812 v 71.62891 H 588.85156 V 553.69531 H 472.54297 Z" />
+  </g>
+</svg>

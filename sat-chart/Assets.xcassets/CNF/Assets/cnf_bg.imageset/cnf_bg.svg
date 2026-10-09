@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1081"
+   height="1081"
+   viewBox="0 0 1081 1081"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <color-profile
+       name="Generic-RGB-Profile"
+       xlink:href="file:///System/Library/ColorSync/Profiles/Generic%20RGB%20Profile.icc"
+       id="color-profile5" />
+    <color-profile
+       name="Display-P3"
+       xlink:href="file:///System/Library/ColorSync/Profiles/Display%20P3.icc"
+       id="color-profile4" />
+    <color-profile
+       name="SMPTE-RP-431-2-2007-DCI-P3"
+       xlink:href="file:///System/Library/ColorSync/Profiles/DCI(P3)%20RGB.icc"
+       id="color-profile6" />
+  </defs>
+  <g
+     id="layer1"
+     style="display:inline"
+     transform="translate(0.5,0.5)">
+    <rect
+       style="fill:#f4f83e;fill-opacity:1;stroke:#000000"
+       id="rect6"
+       width="1080"
+       height="1080"
+       x="0"
+       y="0" />
+  </g>
+</svg>

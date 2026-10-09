@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1081"
+   height="1081"
+   viewBox="0 0 1081 1081"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <color-profile
+       name="Generic-RGB-Profile"
+       xlink:href="file:///System/Library/ColorSync/Profiles/Generic%20RGB%20Profile.icc"
+       id="color-profile5" />
+    <color-profile
+       name="Display-P3"
+       xlink:href="file:///System/Library/ColorSync/Profiles/Display%20P3.icc"
+       id="color-profile4" />
+    <color-profile
+       name="SMPTE-RP-431-2-2007-DCI-P3"
+       xlink:href="file:///System/Library/ColorSync/Profiles/DCI(P3)%20RGB.icc"
+       id="color-profile6" />
+  </defs>
+  <g
+     id="layer2"
+     transform="translate(0.5,0.5)">
+    <path
+       style="font-weight:800;font-size:500px;font-family:Sans;-inkscape-font-specification:'Sans, Ultra-Bold';fill:#050f88;fill-opacity:1;stroke:#000000;stroke-width:0.727056"
+       d="m 397.94197,775.49267 q -28.71871,0 -44.35042,22.17521 -15.26817,21.81168 -15.26817,60.70917 0,39.62456 14.90465,60.70918 14.90464,20.7211 46.53158,20.7211 16.35876,0 32.35399,-3.99881 15.99523,-4.36234 33.80811,-10.90584 v 52.34803 q -17.08582,7.27056 -34.53516,10.54235 -17.44935,3.27168 -37.80692,3.27168 -41.44219,0 -67.6162,-16.72225 -26.17402,-16.72229 -38.8975,-46.53159 -12.35995,-29.80929 -12.35995,-69.79737 0,-39.26103 14.17759,-69.43385 14.54112,-30.17283 42.16925,-47.25864 27.62813,-17.08582 67.25268,-17.08582 19.26698,0 39.26102,4.72587 19.99404,4.36233 38.53397,13.45053 l -19.26698,49.43981 q -14.54112,-6.90703 -29.08224,-11.6329 -14.54112,-4.72586 -29.8093,-4.72586 z M 757.10748,987.42946 H 677.13132 L 572.43526,797.30435 h -1.45411 q 0.36352,6.90703 0.72705,18.53993 0.72706,11.63289 1.45411,25.44696 0.72706,13.45053 1.09059,26.17401 V 987.42946 H 518.99664 V 727.8705 h 79.61263 l 104.33254,187.94398 h 1.09058 q -0.36352,-6.54351 -1.09058,-17.81287 -0.36353,-11.26937 -1.09058,-24.35638 -0.36353,-13.45054 -0.36353,-25.44696 V 727.8705 h 55.61978 z m 122.14537,0 h -61.0727 V 727.8705 h 150.8641 v 50.16687 h -89.7914 v 58.89153 h 83.24786 v 50.16687 h -83.24786 z"
+       id="text6"
+       aria-label="CNF" />
+  </g>
+</svg>

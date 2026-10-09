@@ -66,18 +66,19 @@ struct ContentView: View {
             default:
                 List {
                     Section(header: Text("All")) {
-                        Text(String("# of variables: \(cnf.numberOfVariables)"))
+                        Text(String("\(cnf.numberOfVariables) variables"))
                             .padding(.bottom, 5)
-                        Text(String("# of clauses: \(cnf.numberOfClauses)"))
+                        Text(String("\(cnf.numberOfClauses) clauses"))
                             .padding(.bottom, 5)
                     }
                     Section(header: Text("Primary core")) {
-                        Text(String("# of primary vars: \(cnf.primaryVars.count)"))
+                        Text(String("\(cnf.primaryVars.count) variables"))
                             .padding(.bottom, 5)
-                        Text(String("# of primary clauses: \(cnf.primaryClauses.count)"))
+                        Text(String("\(cnf.primaryClauses.count) clauses"))
                             .padding(.bottom, 5)
                     }
                 }
+                .padding()
             }
         }
     }
